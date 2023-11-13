@@ -1,12 +1,14 @@
-package com.example.agency.models;
+package com.example.hotelagency.models;
 
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "room")
 public class Room {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String roomType;
     private int nbBeds;
     private double price;
 
@@ -16,7 +18,8 @@ public class Room {
 
     public Room() {}
 
-    public Room(int nbBeds, double price, Hotel hotel) {
+    public Room(String roomType, int nbBeds, double price, Hotel hotel) {
+        this.roomType = roomType;
         this.nbBeds = nbBeds;
         this.price = price;
         this.hotel = hotel;
@@ -44,5 +47,21 @@ public class Room {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.agency.models;
+package com.example.hotelagency.models;
 
 import jakarta.persistence.*;
 
@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "agency")
 public class Agency {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String agencyName;
     private String username;
     private String password;
+    private double discount;
 
     // Une agence peut avoir plusieurs offres, mais chaque offre appartient à une seule agence
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
@@ -20,10 +22,11 @@ public class Agency {
 
     public Agency() {}
 
-    public Agency(String agencyName, String username, String password, List<Offer> offfers) {
+    public Agency(String agencyName, String username, String password, double discount, List<Offer> offers) {
         this.agencyName = agencyName;
         this.username = username;
         this.password = password;
+        this.discount = discount;
         this.offers = new ArrayList<>();
     }
 
@@ -58,5 +61,21 @@ public class Agency {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

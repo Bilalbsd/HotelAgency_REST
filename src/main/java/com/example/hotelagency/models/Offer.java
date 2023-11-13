@@ -1,19 +1,20 @@
-package com.example.agency.models;
+package com.example.hotelagency.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
+@Table(name = "offer")
 public class Offer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roomType;
     private int nbBeds;
     private Date availabilityDate;
     private double price;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "agency_id")
@@ -21,11 +22,12 @@ public class Offer {
 
     public Offer() {}
 
-    public Offer(String roomType, int nbBeds, Date availabilityDate, double price, Agency agency) {
+    public Offer(String roomType, int nbBeds, Date availabilityDate, double price, String image, Agency agency) {
         this.roomType = roomType;
         this.nbBeds = nbBeds;
         this.availabilityDate = availabilityDate;
         this.price = price;
+        this.image = image;
         this.agency = agency;
     }
 
@@ -68,5 +70,21 @@ public class Offer {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
