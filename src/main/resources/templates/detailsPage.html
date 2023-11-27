@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Details Page</title>
+  <!-- Ajoutez ici les liens vers les fichiers CSS nécessaires -->
+  <!-- Add Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Details Page</h1>
+
+  <div id="offerDetails" class="mt-4">
+    <!-- Les informations détaillées de l'offre seront affichées ici -->
+  </div>
+
+  <!-- Add Bootstrap JS and Popper.js (required for Bootstrap JS) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+    // Récupérez l'ID de la chambre à partir de l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomId = urlParams.get('id');
+
+    // Chargez les détails de l'offre en fonction de l'ID de la chambre
+    // Vous devrez implémenter cette partie en fonction de votre structure de données
+    fetch(`http://localhost:8080/api/hotel/offer?id=${roomId}`)
+            .then(response => response.json())
+            .then(data => {
+              const offerDetailsContainer = document.getElementById('offerDetails');
+              offerDetailsContainer.innerHTML = `
+                    <h2>Nom de l'hôtel: </h2>
+                    <p>Prix: ${data.price}</p>
+                    <p>Date disponible: ${new Date(data.availabilityDate).toLocaleDateString()}</p>
+                    <p>Est disponible ? ${data.reserved}</p>
+                    <p>Nombre de lits:</p>
+                    <p>Type de lit: </p>
+                    <!-- Ajoutez d'autres détails de l'offre ici -->
+                `;
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              document.getElementById('offerDetails').innerHTML = 'Une erreur est survenue lors du chargement des détails de l\'offre.';
+            });
+  </script>
+</div>
+</body>
+</html>

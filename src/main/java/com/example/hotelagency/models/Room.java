@@ -1,5 +1,6 @@
 package com.example.hotelagency.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,18 +11,19 @@ public class Room {
     private Long id;
     private String roomType;
     private int nbBeds;
-    private double price;
+    private String image;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
     public Room() {}
 
-    public Room(String roomType, int nbBeds, double price, Hotel hotel) {
+    public Room(String roomType, int nbBeds, String image, Hotel hotel) {
         this.roomType = roomType;
         this.nbBeds = nbBeds;
-        this.price = price;
+        this.image = image;
         this.hotel = hotel;
     }
 
@@ -41,14 +43,6 @@ public class Room {
         this.nbBeds = nbBeds;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public Hotel getHotel() {
         return hotel;
     }
@@ -63,5 +57,13 @@ public class Room {
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

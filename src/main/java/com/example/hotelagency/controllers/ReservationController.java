@@ -2,6 +2,7 @@ package com.example.hotelagency.controllers;
 
 import com.example.hotelagency.models.Reservation;
 import com.example.hotelagency.services.ReservationService;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,7 @@ public class ReservationController {
             @RequestParam String username,
             @RequestParam String password,
             @RequestParam Long offerId,
-            @RequestParam String firstname,
-            @RequestParam String lastname) {
+            @RequestParam Long clientId) {
 
         // Vérifier l'authentification de l'agence
         if (!reservationService.isAgencyAuthenticated(agencyId, username, password)) {
@@ -29,7 +29,7 @@ public class ReservationController {
         }
 
         // Effectuer la réservation
-        Reservation response = reservationService.makeReservation(offerId, firstname, lastname);
+        Reservation response = reservationService.makeReservation(offerId, clientId);
 
         // Retourner la réponse
         return ResponseEntity.ok(response);

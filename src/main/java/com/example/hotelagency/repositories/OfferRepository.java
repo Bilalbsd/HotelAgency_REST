@@ -7,13 +7,16 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface OfferRepository extends JpaRepository<Offer, Long> {
 
-    @Query("SELECT o FROM Offer o WHERE o.availabilityDate BETWEEN :startDate AND :endDate AND o.nbBeds >= :nbGuests")
+    @Query("SELECT o FROM Offer o WHERE o.availabilityDate BETWEEN :startDate AND :endDate AND o.room.nbBeds >= :nbGuests")
     List<Offer> findAvailableOffers(
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate,
             @Param("nbGuests") int nbGuests
     );
+
+
 }

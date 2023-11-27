@@ -17,8 +17,8 @@ public class Agency {
     private double discount;
 
     // Une agence peut avoir plusieurs offres, mais chaque offre appartient à une seule agence
-    @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-    private List<Offer> offers;
+//    @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
+//    private List<Offer> offers;
 
     public Agency() {}
 
@@ -27,7 +27,7 @@ public class Agency {
         this.username = username;
         this.password = password;
         this.discount = discount;
-        this.offers = new ArrayList<>();
+//        this.offers = new ArrayList<>();
     }
 
 
@@ -63,13 +63,13 @@ public class Agency {
         this.password = password;
     }
 
-    public List<Offer> getOffers() {
-        return offers;
-    }
-
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
-    }
+//    public List<Offer> getOffers() {
+//        return offers;
+//    }
+//
+//    public void setOffers(List<Offer> offers) {
+//        this.offers = offers;
+//    }
 
     public double getDiscount() {
         return discount;

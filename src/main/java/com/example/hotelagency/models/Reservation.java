@@ -14,13 +14,9 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date startDate;
-    private Date endDate;
-    private int nbGuests;
-
     public boolean success;
     public String message;
-    private String reservationReference;
+    private Long reservationReference;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
@@ -36,10 +32,10 @@ public class Reservation {
 
     public Reservation() {}
 
-    public Reservation(Date startDate, Date endDate, int nbGuests, Hotel hotel, Client client, Offer offer) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.nbGuests = nbGuests;
+    public Reservation(boolean success, String message, Long reservationReference, Hotel hotel, Client client, Offer offer) {
+        this.success = success;
+        this.message = message;
+        this.reservationReference = reservationReference;
         this.hotel = hotel;
         this.client = client;
         this.offer = offer;
@@ -52,30 +48,6 @@ public class Reservation {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public int getNbGuests() {
-        return nbGuests;
-    }
-
-    public void setNbGuests(int nbGuests) {
-        this.nbGuests = nbGuests;
     }
 
     public Hotel getHotel() {

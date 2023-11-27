@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelService {
@@ -33,13 +34,35 @@ public class HotelService {
         for (Offer offer : availableOffers) {
             Offer newOffer = new Offer();
             newOffer.setId(offer.getId());
-            newOffer.setRoomType(offer.getRoomType());
-            newOffer.setNbBeds(offer.getNbBeds());
             newOffer.setAvailabilityDate(offer.getAvailabilityDate());
-            newOffer.setPrice(offer.getPrice());
-            newOffer.setImage(offer.getImage());
+            newOffer.setPrice(offer.getPrice() * offer.getAgency().getDiscount());
+            System.out.println("Offer agence : "+offer.getAgency());
+            System.out.println("Offer room : "+offer.getRoom());
+            newOffer.setAgency(offer.getAgency());
+            // print(offer.getAgency()) --> Agency objecY
+            newOffer.setRoom(offer.getRoom());
             offerList.add(newOffer);
         }
         return offerList;
     }
+
+    // Méthode pour obtenir les offres disponibles
+    public List<Offer> getAvailableOffersComparision(String country, String city, Date startDate, Date endDate, int nbGuests, int minStars) {
+        List<Offer> availableOffers = offerRepository.findAvailableOffers(startDate, endDate, nbGuests);
+        List<Offer> offerList = new ArrayList<>();
+        /*for (Offer offer : availableOffers) {
+            Offer newOffer = new Offer();
+            newOffer.setId(offer.getId());
+            newOffer.setAvailabilityDate(offer.getAvailabilityDate());
+            newOffer.setPrice(offer.getPrice());
+            offerList.add(newOffer);
+        }*/
+        return offerList;
+    }
+
+    public Offer getOfferById(Long id) {
+        Offer offer = offerRepository.findById(id).orElse(null);
+        return offer;
+    }
+
 }

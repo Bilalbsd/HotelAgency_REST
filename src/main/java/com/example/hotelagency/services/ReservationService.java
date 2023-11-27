@@ -1,21 +1,21 @@
 package com.example.hotelagency.services;
 
-import com.example.hotelagency.models.Agency;
-import com.example.hotelagency.models.Offer;
-import com.example.hotelagency.models.Reservation;
-import com.example.hotelagency.repositories.AgencyRepository;
-import com.example.hotelagency.repositories.OfferRepository;
-import com.example.hotelagency.repositories.ReservationRepository;
+import com.example.hotelagency.models.*;
+import com.example.hotelagency.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class ReservationService {
 
     @Autowired
     private OfferRepository offerRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private HotelRepository hotelRepository;
 
     @Autowired
     private AgencyRepository agencyRepository;
@@ -30,17 +30,30 @@ public class ReservationService {
     }
 
     // Méthode pour effectuer la réservation
-    public Reservation makeReservation(Long offerId, String firstname, String lastname) {
+    public Reservation makeReservation(Long offerId, Long clientId) {
+        // Récupère l'offre par ID
         Offer offer = offerRepository.findById(offerId).orElse(null);
+        Client client = clientRepository.findById(clientId).orElse(null);
+
+
 
         if (offer != null) {
             // Vérifie la disponibilité de l'offre
-            if (isOfferAvailable(offer)) {
+            if (offer.isReserved() == false) {
                 // Crée une nouvelle réservation
                 Reservation reservation = new Reservation();
+                reservation.setSuccess(true);
+                reservation.setMessage("Réservation confirmée avec succès.");
+                reservation.setReservationReference(reservation.getId());
                 reservation.setOffer(offer);
-                reservation.setStartDate(new Date());  // Date de début de la réservation (à ajuster selon les besoins)
-                reservation.setEndDate(new Date());    // Date de fin de la réservation (à ajuster selon les besoins)
+                reservation.setClient(client);
+                reservation.setHotel(offer.getRoom().getHotel());
+
+                // On définie que l'offre a été réservé et donc n'est plus disponible !
+                reservation.getOffer().setReserved(true);
+
+                // On définie le prix de l'offre en fonction du "discount" de l'Agence à laquelle elle est reliée !
+                reservation.getOffer().setPrice(reservation.getOffer().getPrice() * reservation.getOffer().getAgency().getDiscount());
 
                 // Enregistre la réservation dans la base de données
                 Reservation savedReservation = reservationRepository.save(reservation);
@@ -50,28 +63,28 @@ public class ReservationService {
                 response.setId(savedReservation.getId());
                 response.setSuccess(true);
                 response.setMessage("Réservation confirmée avec succès.");
-                response.setReservationReference(savedReservation.getId().toString());
+                response.setReservationReference(savedReservation.getId());
 
-                response.setStartDate(savedReservation.getStartDate());
-                response.setEndDate(savedReservation.getEndDate());
-                //response.setOffer(savedReservation.getOffer());
+                response.getHotel();
+
+                System.out.println("getID : " + savedReservation.getId());
+                System.out.println("getOffer : " + savedReservation.getOffer());
+                System.out.println("getClient : " + savedReservation.getClient());
+                System.out.println("getHotel : " + savedReservation.getHotel());
+
+                response.setOffer(savedReservation.getOffer());
+                response.setClient(savedReservation.getClient());
+                //response.setHotel(savedReservation.getHotel());
 
                 return response;
             } else {
+                // L'offre n'est pas disponible
                 return createErrorResponse("L'offre n'est pas disponible pour la réservation.");
             }
         } else {
+            // L'offre n'existe pas
             return createErrorResponse("L'offre spécifiée n'existe pas.");
         }
-    }
-
-    // Méthode pour vérifier la disponibilité de l'offre
-    private boolean isOfferAvailable(Offer offer) {
-        // Vérifie si la date de disponibilité de l'offre est dans le futur
-        Date currentDate = new Date();
-        Date availabilityDate = offer.getAvailabilityDate();
-
-        return availabilityDate != null && availabilityDate.after(currentDate);
     }
 
     // Méthode utilitaire pour créer une réponse d'erreur

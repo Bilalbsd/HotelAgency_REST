@@ -10,25 +10,26 @@ public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String roomType;
-    private int nbBeds;
     private Date availabilityDate;
     private double price;
-    private String image;
+    private boolean isReserved;
 
     @ManyToOne
     @JoinColumn(name = "agency_id")
     private Agency agency;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
     public Offer() {}
 
-    public Offer(String roomType, int nbBeds, Date availabilityDate, double price, String image, Agency agency) {
-        this.roomType = roomType;
-        this.nbBeds = nbBeds;
+    public Offer(Date availabilityDate, double price, boolean isReserved, Agency agency, Room room) {
         this.availabilityDate = availabilityDate;
         this.price = price;
-        this.image = image;
+        this.isReserved = isReserved;
         this.agency = agency;
+        this.room = room;
     }
 
 
@@ -38,22 +39,6 @@ public class Offer {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
-
-    public int getNbBeds() {
-        return nbBeds;
-    }
-
-    public void setNbBeds(int nbBeds) {
-        this.nbBeds = nbBeds;
     }
 
     public Date getAvailabilityDate() {
@@ -80,11 +65,19 @@ public class Offer {
         this.agency = agency;
     }
 
-    public String getImage() {
-        return image;
+    public boolean isReserved() {
+        return isReserved;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setReserved(boolean reserved) {
+        isReserved = reserved;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

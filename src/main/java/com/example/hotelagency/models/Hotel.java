@@ -25,6 +25,7 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
+
     public Hotel() {}
 
     public Hotel(String hotelName, String country, String city, String address, int nbStars, List<Room> rooms, List<Reservation> reservations) {
