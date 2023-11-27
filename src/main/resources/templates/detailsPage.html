@@ -7,14 +7,41 @@
   <!-- Ajoutez ici les liens vers les fichiers CSS nécessaires -->
   <!-- Add Bootstrap CSS link -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+
 </head>
 <body>
 
 <div class="container mt-5">
-  <h1>Details Page</h1>
 
   <div id="offerDetails" class="mt-4">
     <!-- Les informations détaillées de l'offre seront affichées ici -->
+  </div>
+
+  <div class="container mt-5">
+    <h1 class="text-center">Réserver cette offre</h1>
+
+    <div id="reservationFormDiv" class="mt-4">
+      <h2 class="text-center">Inscrivez vos informations personnelles</h2>
+
+      <div id="reservationInfo" class="mt-4"></div>
+
+      <form id="reservationForm">
+        <div class="form-group">
+          <label for="clientId">ID Client:</label>
+          <input type="text" class="form-control" id="clientId" name="clientId" required>
+        </div>
+        <!-- Ajoutez d'autres champs de formulaire si nécessaire -->
+
+        <button type="button" class="btn btn-primary" onclick="makeReservation()">Réserver</button>
+      </form>
+<br>
+      <br>
+      <br>
+      
+
+    </div>
   </div>
 
   <!-- Add Bootstrap JS and Popper.js (required for Bootstrap JS) -->
@@ -34,19 +61,86 @@
             .then(data => {
               const offerDetailsContainer = document.getElementById('offerDetails');
               offerDetailsContainer.innerHTML = `
-                    <h2>Nom de l'hôtel: </h2>
-                    <p>Prix: ${data.price}</p>
-                    <p>Date disponible: ${new Date(data.availabilityDate).toLocaleDateString()}</p>
-                    <p>Est disponible ? ${data.reserved}</p>
-                    <p>Nombre de lits:</p>
-                    <p>Type de lit: </p>
-                    <!-- Ajoutez d'autres détails de l'offre ici -->
+                    <div class="card mx-auto" style="max-width: 500px;">
+            <img src="${data.room.image}" alt="${data.room.image}" class="card-img-top">
+            <div class="card-body">
+              <h2 class="card-title">Nom de l'hôtel:</h2>
+              <p class="card-text">Prix: ${data.price}</p>
+              <p class="card-text">Date disponible: ${new Date(data.availabilityDate).toLocaleDateString()}</p>
+              <p class="card-text">Est disponible ? ${data.reserved ? "Non" : "Oui"}</p>
+              <p class="card-text">Nombre de lits: ${data.room.nbBeds}</p>
+              <p class="card-text">Type de lit: ${data.room.roomType}</p>
+              <!-- Ajoutez d'autres détails de l'offre ici -->
+            </div>
+          </div>
                 `;
             })
             .catch(error => {
               console.error('Error:', error);
               document.getElementById('offerDetails').innerHTML = 'Une erreur est survenue lors du chargement des détails de l\'offre.';
             });
+
+
+    function makeReservation() {
+      const clientId = document.getElementById('clientId').value;
+
+      // Récupérez l'ID de la chambre à partir de l'URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const roomId = urlParams.get('id');
+
+      // Récupérez d'autres informations nécessaires pour la réservation depuis la page
+      fetch(`http://localhost:8080/api/hotel/offer?id=${roomId}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(data => {
+                // Envoie de la demande de réservation au serveur
+                const reservationData = {
+                  agencyId: data.agency.id,
+                  username: data.agency.username,
+                  password: data.agency.password,
+                  offerId: roomId,
+                  clientId: clientId,
+                };
+
+                const queryString = new URLSearchParams(reservationData).toString();
+                const reservationUrl = `http://localhost:8080/api/hotel/reservation?${queryString}`;
+
+                fetch(reservationUrl, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  // Vous pouvez laisser le corps vide ou envoyer une chaîne JSON vide si nécessaire
+                  body: JSON.stringify({}),
+                })
+                        .then(response => {
+                          if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                          }
+                          return response.json();
+                        })
+                        .then(data => {
+                          // Traitez la réponse de réservation ici
+                          console.log('Réservation', data);
+                          const reservationInfoContainer = document.getElementById('reservationInfo');
+                          reservationInfoContainer.innerHTML = `
+                                <p>${data.success ? "Réservation réussie !" : "Erreur de réservation..."}</p>
+                                <p>ID de réservation : ${data.id}</p>
+                                <p>Message : ${data.message}</p>`;
+                        })
+                        .catch(error => {
+                          console.error('Erreur lors de la réservation:', error);
+                        });
+              })
+              .catch(error => {
+                console.error('Erreur lors de la récupération des détails de l\'offre:', error);
+              });
+    }
+
   </script>
 </div>
 </body>

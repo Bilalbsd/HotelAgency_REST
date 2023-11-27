@@ -96,7 +96,7 @@
                     card.innerHTML = `
                         <div class="card-body">
                             <h2 class="card-title">Nom de l'hôtel: ${offer.room.hotelName}</h2>
-                            <!-- Autres éléments de la carte... -->
+                            <img class="card-img-top" src=${offer.room.image} alt=${offer.room.image} />
                             <p class="card-text">Date disponible: ${availabilityDate.toLocaleDateString()}</p>
                         </div>
                     `;
@@ -104,7 +104,7 @@
                     // Ajoutez un gestionnaire d'événements de clic sur chaque carte
                     card.addEventListener('click', function() {
                         // Redirigez vers une nouvelle page avec davantage d'informations
-                        window.location.href = 'offers?id=' + offer.room.id;
+                        window.location.href = 'offer?id=' + offer.id;
                     });
 
                     resultContainer.appendChild(card);
