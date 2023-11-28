@@ -69,7 +69,7 @@
         const urlSearchParams = new URLSearchParams(formData);
         const paramsString = urlSearchParams.toString();
 
-        fetch(`http://localhost:8080/api/hotel/availability?${paramsString}`)
+        fetch(`http://localhost:8080/api/hotel/comparateur?${paramsString}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -90,9 +90,14 @@
 
                     card.innerHTML = `
                         <div class="card-body">
-                            <h2 class="card-title">Nom de l'hôtel: ${offer.room.hotel.hotelName}</h2>
+                            <h2 class="card-title">Chambre n°${offer.id}</h2>
                             <img class="card-img-top" src=${offer.room.image} alt=${offer.room.image} />
+                            <p class="card-text">Nom de l'hôtel: ${offer.room.hotel.hotelName}</p>
+                            <p class="card-text">Nombre d'étoiles de l'hôtel: ${offer.room.hotel.nbStars}</p>
+                            <p class="card-text">Nombre de lits: ${offer.room.nbBeds}</p>
+                            <p class="card-text">Type de chambre: ${offer.room.roomType}</p>
                             <p class="card-text">Date disponible: ${availabilityDate.toLocaleDateString()}</p>
+                            <p class="card-text">Prix de l'offre: ${offer.price}</p>
                         </div>
                     `;
 

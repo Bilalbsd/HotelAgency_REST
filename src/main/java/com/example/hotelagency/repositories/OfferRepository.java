@@ -18,5 +18,19 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
             @Param("nbGuests") int nbGuests
     );
 
+    @Query("SELECT o FROM Offer o WHERE o.availabilityDate BETWEEN :startDate AND :endDate " +
+            "AND o.room.nbBeds >= :nbGuests " +
+            "AND o.room.hotel.country = :country " +
+            "AND o.room.hotel.city = :city " +
+            "AND o.room.hotel.nbStars >= :hotelStars")
+    List<Offer> findAvailableOffersComparision(
+            @Param("country") String country,
+            @Param("city") String city,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate,
+            @Param("nbGuests") int nbGuests,
+            @Param("hotelStars") int hotelStars
+    );
+
 
 }

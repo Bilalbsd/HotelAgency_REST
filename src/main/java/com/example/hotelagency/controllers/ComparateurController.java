@@ -15,13 +15,13 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/comparateur")
+@RequestMapping("/api/hotel")
 public class ComparateurController {
 
     @Autowired
     private HotelService hotelService;
 
-    @GetMapping("/compareOffers")
+    @GetMapping("/comparateur")
     public ResponseEntity<List<Offer>> compareOffers(
             @RequestParam String country,
             @RequestParam String city,

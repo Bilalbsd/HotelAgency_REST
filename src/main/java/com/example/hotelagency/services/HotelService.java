@@ -50,15 +50,18 @@ public class HotelService {
 
     // Méthode pour obtenir les offres disponibles
     public List<Offer> getAvailableOffersComparision(String country, String city, Date startDate, Date endDate, int nbGuests, int minStars) {
-        List<Offer> availableOffers = offerRepository.findAvailableOffers(startDate, endDate, nbGuests);
+        List<Offer> availableOffers = offerRepository.findAvailableOffersComparision(country, city, startDate, endDate, nbGuests, minStars);
         List<Offer> offerList = new ArrayList<>();
-        /*for (Offer offer : availableOffers) {
+        for (Offer offer : availableOffers) {
             Offer newOffer = new Offer();
             newOffer.setId(offer.getId());
             newOffer.setAvailabilityDate(offer.getAvailabilityDate());
             newOffer.setPrice(offer.getPrice());
+            newOffer.setAgency(offer.getAgency());
+            newOffer.setRoom(offer.getRoom());
+            newOffer.getRoom().setHotel(offer.getRoom().getHotel());
             offerList.add(newOffer);
-        }*/
+        }
         return offerList;
     }
 
