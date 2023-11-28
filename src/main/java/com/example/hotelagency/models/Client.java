@@ -16,4 +16,6 @@ public class Client {
     private Long id;
     private String firstname;
     private String lastname;
+    private String cardNumber;
+    private String ccv;
 }

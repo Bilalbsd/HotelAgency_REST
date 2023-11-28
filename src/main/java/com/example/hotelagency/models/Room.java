@@ -1,6 +1,7 @@
 package com.example.hotelagency.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,7 +14,6 @@ public class Room {
     private int nbBeds;
     private String image;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;

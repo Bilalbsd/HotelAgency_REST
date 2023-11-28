@@ -29,34 +29,29 @@
 <body>
 
 <div class="form-container">
-<h1>Hotel Availability Checker</h1>
-<form id="availabilityForm">
-    <label for="agencyId">Select Agency:</label>
-    <select id="agencyId" name="agencyId" required>
-        <option value="1">Agency 1</option>
-        <option value="2">Agency 2</option>
-        <option value="3">Agency 3</option>
-    </select><br>
+    <h1>Comparateur</h1>
+    <form id="availabilityForm">
 
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <span id="usernameError" style="color: red;"></span><br>
+        <label for="country">Pays:</label>
+        <input type="text" id="country" name="country" required>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <span id="passwordError" style="color: red;"></span><br>
+        <label for="city">Ville:</label>
+        <input type="text" id="city" name="city" required>
 
-    <label for="startDate">Start Date:</label>
-    <input type="date" id="startDate" name="startDate" required><br>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required><br>
 
-    <label for="endDate">End Date:</label>
-    <input type="date" id="endDate" name="endDate" required><br>
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required><br>
 
-    <label for="nbGuests">Number of Guests:</label>
-    <input type="number" id="nbGuests" name="nbGuests" required><br>
+        <label for="nbGuests">Nombre de personnes (min):</label>
+        <input type="number" id="nbGuests" name="nbGuests" required><br>
 
-    <button type="button" class="btn btn-primary" onclick="checkAvailability()">Check Availability</button>
-</form>
+        <label for="minStars">Nombre d'étoile (min):</label>
+        <input type="number" id="minStars" name="minStars" required><br>
+
+        <button type="button" class="btn btn-primary" onclick="checkAvailability()">Comparer les offres</button>
+    </form>
 </div>
 
 <div id="result" class="card-container"></div>
@@ -115,7 +110,7 @@
                 document.getElementById('result').innerHTML = 'Une erreur est survenue !';
             });
     }
-    </script>
+</script>
 
-    </body>
+</body>
 </html>

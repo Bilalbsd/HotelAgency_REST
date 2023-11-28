@@ -41,6 +41,8 @@ public class HotelService {
             newOffer.setAgency(offer.getAgency());
             // print(offer.getAgency()) --> Agency objecY
             newOffer.setRoom(offer.getRoom());
+            System.out.println("testttttttttt: "+offer.getRoom().getHotel());
+            newOffer.getRoom().setHotel(offer.getRoom().getHotel());
             offerList.add(newOffer);
         }
         return offerList;
@@ -61,8 +63,6 @@ public class HotelService {
     }
 
     public Offer getOfferById(Long id) {
-        Offer offer = offerRepository.findById(id).orElse(null);
-        return offer;
+        return offerRepository.findById(id).orElse(null);
     }
-
 }

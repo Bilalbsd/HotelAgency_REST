@@ -29,14 +29,20 @@ public class ReservationService {
         return agency != null && agency.getUsername().equals(username) && agency.getPassword().equals(password);
     }
 
+    public Long findClientId(String firstname, String lastname, String cardNumber, String ccv) {
+        // Utilisez votre repository client pour trouver le client en fonction des informations fournies
+        // Assurez-vous que la méthode findBy... existe dans votre clientRepository
+        Client client = clientRepository.findByFirstnameAndLastnameAndCardNumberAndCcv(firstname, lastname, cardNumber, ccv);
+        // Retourne l'ID du client s'il est trouvé, sinon retourne null
+        return (client != null) ? client.getId() : null;
+    }
+
+
     // Méthode pour effectuer la réservation
     public Reservation makeReservation(Long offerId, Long clientId) {
         // Récupère l'offre par ID
         Offer offer = offerRepository.findById(offerId).orElse(null);
         Client client = clientRepository.findById(clientId).orElse(null);
-
-
-
         if (offer != null) {
             // Vérifie la disponibilité de l'offre
             if (offer.isReserved() == false) {

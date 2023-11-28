@@ -1,5 +1,6 @@
 package com.example.hotelagency.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,23 +19,24 @@ public class Hotel {
     private int nbStars;
 
     // Un hôtel peut avoir plusieurs chambres, et chaque chambre appartient à un seul hôtel.
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private List<Room> rooms;
+    //@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    //private List<Room> rooms;
 
     // Un hôtel peut avoir plusieurs réservations, mais une réservation est associée à un seul hôtel.
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Reservation> reservations;
 
 
     public Hotel() {}
 
-    public Hotel(String hotelName, String country, String city, String address, int nbStars, List<Room> rooms, List<Reservation> reservations) {
+    public Hotel(String hotelName, String country, String city, String address, int nbStars, List<Reservation> reservations) {
         this.hotelName = hotelName;
         this.country = country;
         this.city = city;
         this.address = address;
         this.nbStars = nbStars;
-        this.rooms = new ArrayList<>();
+        //this.rooms = new ArrayList<>();
         this.reservations = new ArrayList<>();
     }
 
@@ -85,14 +87,6 @@ public class Hotel {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
     }
 
     public List<Reservation> getReservations() {

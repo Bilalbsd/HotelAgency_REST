@@ -18,4 +18,10 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("detailsPage");
         return modelAndView;
     }
+
+    @GetMapping("/comparateur")
+    public ModelAndView comparateurPage() {
+        ModelAndView modelAndView = new ModelAndView("comparateur");
+        return modelAndView;
+    }
 }

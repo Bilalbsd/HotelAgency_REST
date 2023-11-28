@@ -1,5 +1,6 @@
 package com.example.hotelagency.controllers;
 
+import com.example.hotelagency.models.Client;
 import com.example.hotelagency.models.Reservation;
 import com.example.hotelagency.services.ReservationService;
 import org.apache.coyote.Request;
@@ -32,6 +33,18 @@ public class ReservationController {
         Reservation response = reservationService.makeReservation(offerId, clientId);
 
         // Retourner la réponse
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/client")
+    public ResponseEntity<Long> findClient(
+            @RequestParam String firstname,
+            @RequestParam String lastname,
+            @RequestParam String cardNumber,
+            @RequestParam String ccv
+    ) {
+        Long response = reservationService.findClientId(firstname, lastname, cardNumber, ccv);
+
         return ResponseEntity.ok(response);
     }
 }
