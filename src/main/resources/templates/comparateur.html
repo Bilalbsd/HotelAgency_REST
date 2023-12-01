@@ -29,7 +29,7 @@
 <body>
 
 <div class="form-container">
-    <h1>Comparateur</h1>
+    <h1>Service web 3 : Comparateur</h1>
     <form id="availabilityForm">
 
         <label for="country">Pays:</label>
@@ -93,11 +93,12 @@
                             <h2 class="card-title">Chambre n°${offer.id}</h2>
                             <img class="card-img-top" src=${offer.room.image} alt=${offer.room.image} />
                             <p class="card-text">Nom de l'hôtel: ${offer.room.hotel.hotelName}</p>
+                            <p class="card-text">Nom de l'agence: ${offer.agency.agencyName}</p>
                             <p class="card-text">Nombre d'étoiles de l'hôtel: ${offer.room.hotel.nbStars}</p>
                             <p class="card-text">Nombre de lits: ${offer.room.nbBeds}</p>
                             <p class="card-text">Type de chambre: ${offer.room.roomType}</p>
                             <p class="card-text">Date disponible: ${availabilityDate.toLocaleDateString()}</p>
-                            <p class="card-text">Prix de l'offre: ${offer.price}</p>
+                            <p class="card-text">Prix de l'offre: ${offer.price}€</p>
                         </div>
                     `;
 
