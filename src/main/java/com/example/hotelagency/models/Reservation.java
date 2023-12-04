@@ -16,7 +16,7 @@ public class Reservation {
     private Long id;
     public boolean success;
     public String message;
-    private Long reservationReference;
+    //private Long reservationReference;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
@@ -35,7 +35,7 @@ public class Reservation {
     public Reservation(boolean success, String message, Long reservationReference, Hotel hotel, Client client, Offer offer) {
         this.success = success;
         this.message = message;
-        this.reservationReference = reservationReference;
+        //this.reservationReference = reservationReference;
         this.hotel = hotel;
         this.client = client;
         this.offer = offer;

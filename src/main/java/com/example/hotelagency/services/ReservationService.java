@@ -50,7 +50,7 @@ public class ReservationService {
                 Reservation reservation = new Reservation();
                 reservation.setSuccess(true);
                 reservation.setMessage("Réservation confirmée avec succès.");
-                reservation.setReservationReference(reservation.getId());
+                //reservation.setReservationReference(reservation.getId());
                 reservation.setOffer(offer);
                 reservation.setClient(client);
                 reservation.setHotel(offer.getRoom().getHotel());
@@ -69,7 +69,7 @@ public class ReservationService {
                 response.setId(savedReservation.getId());
                 response.setSuccess(true);
                 response.setMessage("Réservation confirmée avec succès.");
-                response.setReservationReference(savedReservation.getId());
+                //response.setReservationReference(response.getId());
 
                 response.getHotel();
 

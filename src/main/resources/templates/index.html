@@ -100,7 +100,9 @@
                             <h2 class="card-title">Nom de l'hôtel: ${offer.room.hotel.hotelName}</h2>
                             <img class="card-img-top" src=${offer.room.image} alt=${offer.room.image} />
                             <p class="card-text">Date disponible: ${availabilityDate.toLocaleDateString()}</p>
-                        </div>
+                            <p class="card-text">Prix agence:<span style="text-decoration: line-through; opacity: 0.75">${offer.price}€</span> ${offer.price * offer.agency.discount}€ (-${offer.agency.discount * 100}%)</p>
+                            <p class="card-text" style="color: green">Veuillez cliquer pour plus d'informations...</p>
+                    </div>
                     `;
 
                     // Ajoutez un gestionnaire d'événements de clic sur chaque carte
