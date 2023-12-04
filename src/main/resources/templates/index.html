@@ -7,7 +7,7 @@
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        .form-container {
+        #form-container {
             max-width: 500px;
             margin: 0 auto;
         }
@@ -26,44 +26,57 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-light">
 
-<div class="form-container">
-<h1>Service web 1</h1>
-<form id="availabilityForm">
-    <label for="agencyId">Sélectionne l'agence:</label>
-    <select id="agencyId" name="agencyId" required>
-        <option value="1">Trivago</option>
-        <option value="2">HotelAgency</option>
-        <option value="3">Ritz</option>
-    </select><br>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand text-light" href="/comparateur">Comparateur</a>
+</nav>
 
-    <label for="username">Nom d'utilisateur:</label>
-    <input type="text" id="username" name="username" required>
-    <span id="usernameError" style="color: red;"></span><br>
+<div class="container mt-5" id="form-container">
+    <h1 class="text-center mb-4">Service web 1</h1>
+    <form id="availabilityForm">
+        <div class="form-group">
+            <label for="agencyId">Sélectionner l'agence:</label>
+            <select class="form-control" id="agencyId" name="agencyId" required>
+                <option value="1">Agence 1</option>
+                <option value="2">HotelAgency</option>
+                <option value="3">Agence 3</option>
+            </select>
+        </div>
 
-    <label for="password">Mot de passe:</label>
-    <input type="password" id="password" name="password" required>
-    <span id="passwordError" style="color: red;"></span><br>
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+            <span id="usernameError" style="color: red;"></span>
+        </div>
 
-    <label for="startDate">Date de début:</label>
-    <input type="date" id="startDate" name="startDate" required><br>
+        <div class="form-group">
+            <label for="password">Mot de passe:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            <span id="passwordError" style="color: red;"></span>
+        </div>
 
-    <label for="endDate">Date de fin:</label>
-    <input type="date" id="endDate" name="endDate" required><br>
+        <div class="form-group">
+            <label for="startDate">Date de début:</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+        </div>
 
-    <label for="nbGuests">Nombre de personnes:</label>
-    <input type="number" id="nbGuests" name="nbGuests" required><br>
+        <div class="form-group">
+            <label for="endDate">Date de fin:</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+        </div>
 
-    <button type="button" class="btn btn-primary" onclick="checkAvailability()">Voir les offres</button>
-    <button type="button" class="btn btn-secondary" id="comparateur">Comparateur</button>
-</form>
+        <div class="form-group">
+            <label for="nbGuests">Nombre de personne(s):</label>
+            <input type="number" class="form-control" id="nbGuests" name="nbGuests" required>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="checkAvailability()">Voir les offres</button>
+        <button type="button" class="btn btn-secondary" id="comparateur">Comparateur</button>
+    </form>
 </div>
 
-
-<div id="result" class="card-container"></div>
-
-</div>
+<div id="result" class="container card-container"></div>
 
 <!-- Add Bootstrap JS and Popper.js (required for Bootstrap JS) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -84,7 +97,6 @@
                 return response.json();
             })
             .then(data => {
-                // Display the result as cards
                 const resultContainer = document.getElementById('result');
                 resultContainer.innerHTML = '';  // Clear previous results
 
@@ -92,7 +104,6 @@
                     const card = document.createElement('div');
                     card.classList.add('card');
 
-                    // Convertissez offer.availabilityDate en objet Date
                     const availabilityDate = new Date(offer.availabilityDate);
 
                     card.innerHTML = `
@@ -102,12 +113,10 @@
                             <p class="card-text">Date disponible: ${availabilityDate.toLocaleDateString()}</p>
                             <p class="card-text">Prix agence:<span style="text-decoration: line-through; opacity: 0.75">${offer.price}€</span> ${offer.price * offer.agency.discount}€ (-${offer.agency.discount * 100}%)</p>
                             <p class="card-text" style="color: green">Veuillez cliquer pour plus d'informations...</p>
-                    </div>
-                    `;
+                        </div>
+                        `;
 
-                    // Ajoutez un gestionnaire d'événements de clic sur chaque carte
                     card.addEventListener('click', function() {
-                        // Redirigez vers une nouvelle page avec davantage d'informations
                         window.location.href = 'offer?id=' + offer.id;
                     });
 

@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Details Page</title>
-  <!-- Ajoutez ici les liens vers les fichiers CSS nécessaires -->
   <!-- Add Bootstrap CSS link -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
@@ -13,13 +12,16 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand text-light" href="/">Accueil</a>
+  <a class="navbar-brand text-light" href="/comparateur">Comparateur</a>
+</nav>
+
 <div class="container mt-5">
 
   <h1 class="text-center">Service web 2</h1>
 
-  <div id="offerDetails" class="mt-4">
-    <!-- Les informations détaillées de l'offre seront affichées ici -->
-  </div>
+  <div id="offerDetails" class="mt-4"></div>
 
   <div class="container mt-5">
     <h1 class="text-center">Réserver cette offre</h1>
@@ -44,16 +46,14 @@
           <label for="clientCCV">CCV: </label>
           <input type="text" class="form-control" id="clientCCV" name="clientCCV" min="3" max="3" required>
         </div>
-        <!-- Ajoutez d'autres champs de formulaire si nécessaire -->
 
         <button type="button" class="btn btn-primary" onclick="makeReservation()">Réserver</button>
         <button type="button" class="btn btn-secondary" id="accueil">Accueil</button>
       </form>
-<br>
-      <br>
-      <br>
-      
 
+      <br>
+      <br>
+      <br>
     </div>
   </div>
 
@@ -63,28 +63,30 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <script>
-    // Récupérez l'ID de la chambre à partir de l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const roomId = urlParams.get('id');
 
-    // Chargez les détails de l'offre en fonction de l'ID de la chambre
-    // Vous devrez implémenter cette partie en fonction de votre structure de données
     fetch(`http://localhost:8080/api/hotel/offer?id=${roomId}`)
             .then(response => response.json())
             .then(data => {
               const offerDetailsContainer = document.getElementById('offerDetails');
               offerDetailsContainer.innerHTML = `
                     <div class="card mx-auto" style="max-width: 500px;">
-            <img src="${data.room.image}" alt="${data.room.image}" class="card-img-top">
-            <div class="card-body">
-              <h2 class="card-title">Nom de l'hôtel: ${data.room.hotel.hotelName}</h2>
-              <p class="card-text">Prix agence:<span style="text-decoration: line-through; opacity: 0.75">${data.price}€</span> ${data.price * data.agency.discount}€ (-${data.agency.discount * 100}%)</>
-              <p class="card-text">Date disponible: ${new Date(data.availabilityDate).toLocaleDateString()}</p>
-              <p class="card-text">Est disponible ? ${data.reserved ? "Non" : "Oui"}</p>
-              <p class="card-text">Nombre de lits: ${data.room.nbBeds}</p>
-              <p class="card-text">Type de lit: ${data.room.roomType}</p>
-            </div>
-          </div>
+                      <img src="${data.room.image}" alt="${data.room.image}" class="card-img-top">
+                      <div class="card-body">
+                        <h2 class="card-title text-center">Chambre n°${data.id}</h2>
+                        <p class="card-text">Nom de l'hôtel: ${data.room.hotel.hotelName}</p>
+                        <p class="card-text">Pays: ${data.room.hotel.country}</p>
+                        <p class="card-text">Ville: ${data.room.hotel.city}</p>
+                        <p class="card-text">Adresse: ${data.room.hotel.address}</p>
+                        <p class="card-text">Nombre d'étoiles: ${data.room.hotel.nbStars}</p>
+                        <p class="card-text">Prix agence:<span style="text-decoration: line-through; opacity: 0.75">${data.price}€</span> <span style="color: green">${data.price * data.agency.discount}€</span> (-${data.agency.discount * 100}%)</>
+                        <p class="card-text">Date disponible: ${new Date(data.availabilityDate).toLocaleDateString()}</p>
+                        <p class="card-text">Est disponible ? ${data.reserved ? "Non" : "Oui"}</p>
+                        <p class="card-text">Nombre de lits: ${data.room.nbBeds}</p>
+                        <p class="card-text">Type de lit: ${data.room.roomType}</p>
+                      </div>
+                  </div>
                 `;
             })
             .catch(error => {
@@ -100,7 +102,6 @@
       const cardNumber = document.getElementById('clientCardNumber').value;
       const ccv = document.getElementById('clientCCV').value;
 
-      // Recherchez l'ID du client en fonction des informations fournies
       fetch(`http://localhost:8080/api/hotel/client?firstname=${firstname}&lastname=${lastname}&cardNumber=${cardNumber}&ccv=${ccv}`)
               .then(response => {
                 if (!response.ok) {
@@ -110,12 +111,9 @@
               })
               .then(clientData => {
                 const clientId = clientData;
-
-                // Récupérez l'ID de la chambre à partir de l'URL
                 const urlParams = new URLSearchParams(window.location.search);
                 const roomId = urlParams.get('id');
 
-                // Récupérez d'autres informations nécessaires pour la réservation depuis la page
                 fetch(`http://localhost:8080/api/hotel/offer?id=${roomId}`)
                         .then(response => {
                           if (!response.ok) {
@@ -124,7 +122,6 @@
                           return response.json();
                         })
                         .then(offerData => {
-                          // Envoie de la demande de réservation au serveur
                           const reservationData = {
                             agencyId: offerData.agency.id,
                             username: offerData.agency.username,

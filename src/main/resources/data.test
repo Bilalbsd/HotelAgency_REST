@@ -1,6 +1,8 @@
 INSERT INTO `agency` (`id`, `agency_name`, `discount`, `password`, `username`) VALUES ('1', 'AgencyName', '0.5', 'password', 'username');
+INSERT INTO `agency` (`id`, `agency_name`, `discount`, `password`, `username`) VALUES ('2', 'HotelAgency', '0.3', 'motdepasse', 'hotelagency');
 
-INSERT INTO `client` (`id`, `firstname`, `lastname`) VALUES ('1', 'Firstname', 'Lastname');
+INSERT INTO `client` (`id`, `firstname`, `lastname`, `card_number`, `ccv`) VALUES ('1', 'Prénom', 'Nom', '12345', '123');
+INSERT INTO `client` (`id`, `firstname`, `lastname`, `card_number`, `ccv`) VALUES ('2', 'Prénom', 'Nom', '1234567890123456', '123');
 
 INSERT INTO `hotel` (`id`, `address`, `city`, `country`, `hotel_name`, `nb_stars`) VALUES ('1', '75 Avenue Augustin Fliche', 'Montpellier', 'France', 'HotelName', '3');
 
