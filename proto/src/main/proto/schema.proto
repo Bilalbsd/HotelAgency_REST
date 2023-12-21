@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.example;
+
+message Offer {
+  int64 id = 1;
+  string availability_date = 2;
+  double price = 3;
+  bool is_reserved = 4;
+  int64 agency_id = 5;
+  int64 room_id = 6;
+}
+
+message Agency {
+  int64 id = 1;
+  string agency_name = 2;
+  string username = 3;
+  string password = 4;
+  double discount = 5;
+}
+
+message Client {
+  int64 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string card_number = 4;
+  string ccv = 5;
+}
+
+message Hotel {
+  int64 id = 1;
+  string hotel_name = 2;
+  string address = 3;
+  string country = 4;
+  string city = 5;
+  int32 nb_stars = 6;
+}
+
+message Room {
+  int64 id = 1;
+  string room_type = 2;
+  int32 nb_beds = 3;
+  string image = 4;
+}
+
+message Reservation {
+  int64 id = 1;
+  bool success = 2;
+  string message = 3;
+  int64 hotel_id = 4;
+  int64 client_id = 5;
+  int64 offer_id = 6;
+}
+
+// Premier Web service
+service HotelAgencyService {
+  rpc checkAvailability(AvailabilityRequest) returns(AvailabilityResponse){}
+  rpc getClient(Client) returns(Client){}
+  rpc getOffer(Offer) returns(Offer){}
+}
+
+message AvailabilityRequest {
+  int64 agencyId = 1;
+  string username = 2;
+  string password = 3;
+  string startDate = 4;
+  string endDate = 5;
+  int32 nbGuests = 6;
+}
+
+message AvailabilityResponse {
+  repeated Offer availableOffers = 1;
+}
+
+// Second Web Service
+service ReservationService {
+  rpc makeReservation(ReservationRequest) returns(ReservationResponse){}
+}
+
+message ReservationRequest {
+  int64 agencyId = 1;
+  string username = 2;
+  string password = 3;
+  int64 offerId = 4;
+  int64 clientId = 5;
+}
+
+message ReservationResponse {
+  bool success = 1;
+  int64 reservationReference = 2;
+}
