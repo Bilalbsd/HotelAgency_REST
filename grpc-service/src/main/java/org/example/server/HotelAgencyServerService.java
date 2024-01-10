@@ -11,7 +11,7 @@ public class HotelAgencyServerService extends HotelAgencyServiceGrpc.HotelAgency
     public void getClient(Client request, StreamObserver<Client> responseObserver) {
         DB.getClientsFromDB()
                 .stream()
-                .filter(author -> author.getId() == request.getId())
+                .filter(client -> client.getId() == request.getId())
                 .findFirst()
                 .ifPresent(responseObserver::onNext);
         responseObserver.onCompleted();
@@ -21,20 +21,39 @@ public class HotelAgencyServerService extends HotelAgencyServiceGrpc.HotelAgency
     public void getOffer(Offer request, StreamObserver<Offer> responseObserver) {
         DB.getOffersFromDB()
                 .stream()
-                .filter(author -> author.getId() == request.getId())
+                .filter(offer -> offer.getId() == request.getId())
                 .findFirst()
                 .ifPresent(responseObserver::onNext);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void checkAvailability(AvailabilityRequest request, StreamObserver<AvailabilityResponse> responseObserver) {
-        // Implémentez la logique pour vérifier la disponibilité en fonction des paramètres de demande
-        // Utilisez DB.getOffersFromDB() pour obtenir les offres disponibles depuis votre base de données
-        // Supposons une logique simple pour cet exemple (retourner toutes les offres)
-        AvailabilityResponse.Builder responseBuilder = AvailabilityResponse.newBuilder();
-        DB.getOffersFromDB().forEach(offer -> responseBuilder.addAvailableOffers(offer));
-        responseObserver.onNext(responseBuilder.build());
+    public void getHotel(Hotel request, StreamObserver<Hotel> responseObserver) {
+        DB.getHotelsFromDB()
+                .stream()
+                .filter(hotel -> hotel.getId() == request.getId())
+                .findFirst()
+                .ifPresent(responseObserver::onNext);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getRoom(Room request, StreamObserver<Room> responseObserver) {
+        DB.getRoomsFromDB()
+                .stream()
+                .filter(room -> room.getId() == request.getId())
+                .findFirst()
+                .ifPresent(responseObserver::onNext);
+        responseObserver.onCompleted();
+    }
+
+
+    @Override
+    public void checkAvailability(AvailabilityRequest request, StreamObserver<Offer> responseObserver) {
+        DB.checkAvailabilityFromDB(request)
+                .stream()
+                .findFirst()
+                .ifPresent(responseObserver::onNext);
         responseObserver.onCompleted();
     }
 

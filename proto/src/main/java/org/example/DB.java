@@ -15,7 +15,15 @@ public class DB {
         };
     }
 
-    public static List<Agency> getAgencysFromDB() {
+    public static List<Offer> checkAvailabilityFromDB(AvailabilityRequest request) {
+    return new ArrayList<Offer>() {
+            {
+                add(Offer.newBuilder().setId(1).setAvailabilityDate("17/12/2023").setPrice(100).setIsReserved(false).setAgencyId(1).setRoomId(1).build());
+            }
+        };
+    }
+
+    public static List<Agency> getAgenciesFromDB() {
         return new ArrayList<Agency>() {
             {
                 add(Agency.newBuilder().setId(1).setAgencyName("Agency1").setUsername("username").setPassword("password").setDiscount(0.5).build());
@@ -48,8 +56,4 @@ public class DB {
             }
         };
     }
-
-
-
-
 }

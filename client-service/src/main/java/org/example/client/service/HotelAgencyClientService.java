@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 
 @Service
 public class HotelAgencyClientService {
@@ -33,36 +32,21 @@ public class HotelAgencyClientService {
         return offerResponse.getAllFields();
     }
 
-    public List<Offer> checkAvailability(AvailabilityRequest availabilityRequest) {
-        CompletableFuture<List<Offer>> resultFuture = new CompletableFuture<>();
+    public Map<Descriptors.FieldDescriptor, Object> getHotel(int hotelId) {
+        Hotel hotelRequest = Hotel.newBuilder().setId(hotelId).build();
+        Hotel hotelResponse = synchronousClient.getHotel(hotelRequest);
+        return hotelResponse.getAllFields();
+    }
 
-        // Appeler le service gRPC de manière asynchrone
-        StreamObserver<AvailabilityResponse> responseObserver = new StreamObserver<AvailabilityResponse>() {
-            private final List<Offer> availableOffers = new ArrayList<>();
+    public Map<Descriptors.FieldDescriptor, Object> getRoom(int roomId) {
+        Room roomRequest = Room.newBuilder().setId(roomId).build();
+        Room roomResponse = synchronousClient.getRoom(roomRequest);
+        return roomResponse.getAllFields();
+    }
 
-            @Override
-            public void onNext(AvailabilityResponse value) {
-                // Ajouter les offres disponibles à la liste
-                availableOffers.addAll(value.getAvailableOffersList());
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                // Gérer les erreurs, si nécessaire
-                resultFuture.completeExceptionally(t);
-            }
-
-            @Override
-            public void onCompleted() {
-                // Compléter le futur avec la liste des offres disponibles
-                resultFuture.complete(availableOffers);
-            }
-        };
-
-        // Appeler le service gRPC de manière asynchrone
-        asynchronousClient.checkAvailability(availabilityRequest, responseObserver);
-
-        // Attendre la fin de l'appel asynchrone et récupérer le résultat
-        return resultFuture.join();
+    public Map<Descriptors.FieldDescriptor, Object> checkAvailability(AvailabilityRequest.Builder availabilityRequest) {
+        Offer offerRequest = Offer.newBuilder().setId(1).build();
+        Offer offerResponse = synchronousClient.getOffer(offerRequest);
+        return offerResponse.getAllFields();
     }
 }

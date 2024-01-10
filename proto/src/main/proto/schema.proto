@@ -56,9 +56,11 @@ message Reservation {
 
 // Premier Web service
 service HotelAgencyService {
-  rpc checkAvailability(AvailabilityRequest) returns(AvailabilityResponse){}
+  rpc checkAvailability(AvailabilityRequest) returns(Offer){}
   rpc getClient(Client) returns(Client){}
   rpc getOffer(Offer) returns(Offer){}
+  rpc getHotel(Hotel) returns(Hotel){}
+  rpc getRoom(Room) returns(Room){}
 }
 
 message AvailabilityRequest {
@@ -77,6 +79,7 @@ message AvailabilityResponse {
 // Second Web Service
 service ReservationService {
   rpc makeReservation(ReservationRequest) returns(ReservationResponse){}
+  rpc getReservation(Reservation) returns(Reservation){}
 }
 
 message ReservationRequest {

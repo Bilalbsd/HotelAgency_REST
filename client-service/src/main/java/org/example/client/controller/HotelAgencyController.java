@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,23 +30,32 @@ public class HotelAgencyController {
         return hotelAgencyClientService.getOffer(Integer.parseInt(id));
     }
 
+    @GetMapping("/hotel/{id}")
+    public Map<Descriptors.FieldDescriptor, Object> getHotel(@PathVariable String id) {
+        return hotelAgencyClientService.getHotel(Integer.parseInt(id));
+    }
+
+    @GetMapping("/room/{id}")
+    public Map<Descriptors.FieldDescriptor, Object> getRoom(@PathVariable String id) {
+        return hotelAgencyClientService.getRoom(Integer.parseInt(id));
+    }
+
     @GetMapping("/checkAvailability")
-    public List<Offer> checkAvailability(
-            @RequestParam long agencyId,
+    public Map<Descriptors.FieldDescriptor, Object> checkAvailability(
+            @RequestParam int agencyId,
             @RequestParam String username,
             @RequestParam String password,
             @RequestParam String startDate,
             @RequestParam String endDate,
             @RequestParam int nbGuests) {
 
-        AvailabilityRequest availabilityRequest = AvailabilityRequest.newBuilder()
+        AvailabilityRequest.Builder availabilityRequest = AvailabilityRequest.newBuilder()
                 .setAgencyId(agencyId)
                 .setUsername(username)
                 .setPassword(password)
                 .setStartDate(startDate)
                 .setEndDate(endDate)
-                .setNbGuests(nbGuests)
-                .build();
+                .setNbGuests(nbGuests);
 
         return hotelAgencyClientService.checkAvailability(availabilityRequest);
     }
