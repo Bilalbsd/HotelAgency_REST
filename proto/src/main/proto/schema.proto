@@ -61,6 +61,7 @@ service HotelAgencyService {
   rpc getOffer(Offer) returns(Offer){}
   rpc getHotel(Hotel) returns(Hotel){}
   rpc getRoom(Room) returns(Room){}
+  rpc getAgency(Agency) returns(Agency){}
 }
 
 message AvailabilityRequest {
@@ -78,7 +79,7 @@ message AvailabilityResponse {
 
 // Second Web Service
 service ReservationService {
-  rpc makeReservation(ReservationRequest) returns(ReservationResponse){}
+  rpc makeReservation(ReservationRequest) returns(Reservation){}
   rpc getReservation(Reservation) returns(Reservation){}
 }
 

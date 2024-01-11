@@ -40,6 +40,11 @@ public class HotelAgencyController {
         return hotelAgencyClientService.getRoom(Integer.parseInt(id));
     }
 
+    @GetMapping("/agency/{id}")
+    public Map<Descriptors.FieldDescriptor, Object> getAgency(@PathVariable String id) {
+        return hotelAgencyClientService.getAgency(Integer.parseInt(id));
+    }
+
     @GetMapping("/checkAvailability")
     public Map<Descriptors.FieldDescriptor, Object> checkAvailability(
             @RequestParam int agencyId,

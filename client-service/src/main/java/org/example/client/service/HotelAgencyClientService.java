@@ -44,6 +44,12 @@ public class HotelAgencyClientService {
         return roomResponse.getAllFields();
     }
 
+    public Map<Descriptors.FieldDescriptor, Object> getAgency(int agencyId) {
+        Agency agencyRequest = Agency.newBuilder().setId(agencyId).build();
+        Agency agencyResponse = synchronousClient.getAgency(agencyRequest);
+        return agencyResponse.getAllFields();
+    }
+
     public Map<Descriptors.FieldDescriptor, Object> checkAvailability(AvailabilityRequest.Builder availabilityRequest) {
         Offer offerRequest = Offer.newBuilder().setId(1).build();
         Offer offerResponse = synchronousClient.getOffer(offerRequest);

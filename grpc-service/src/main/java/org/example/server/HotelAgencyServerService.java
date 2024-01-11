@@ -47,6 +47,16 @@ public class HotelAgencyServerService extends HotelAgencyServiceGrpc.HotelAgency
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void getAgency(Agency request, StreamObserver<Agency> responseObserver) {
+        DB.getAgenciesFromDB()
+                .stream()
+                .filter(agency -> agency.getId() == request.getId())
+                .findFirst()
+                .ifPresent(responseObserver::onNext);
+        responseObserver.onCompleted();
+    }
+
 
     @Override
     public void checkAvailability(AvailabilityRequest request, StreamObserver<Offer> responseObserver) {

@@ -56,4 +56,20 @@ public class DB {
             }
         };
     }
+
+    public static List<Reservation> getReservationsFromDB() {
+        return new ArrayList<Reservation>() {
+            {
+                add(Reservation.newBuilder().setId(1).setSuccess(true).setMessage("Votre réservation a été crée !").setHotelId(1).setClientId(1).setOfferId(1).build());
+            }
+        };
+    }
+
+    public static List<Reservation> makeReservationFromDB(ReservationRequest reservationRequest) {
+        return new ArrayList<Reservation>() {
+            {
+                add(Reservation.newBuilder().setId(1).setSuccess(true).setMessage("Votre réservation a été crée !").setHotelId(1).setClientId(1).setOfferId(1).build());
+            }
+        };
+    }
 }
